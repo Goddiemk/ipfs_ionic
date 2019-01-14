@@ -1,22 +1,19 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule, APP_INITIALIZER } from "@angular/core";
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
-
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from "./app.component";
+import { IPFS, initIPFS } from "./ipfs";
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule],
   providers: [
-    StatusBar,
-    SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initIPFS,
+      multi: true,
+      deps: [IPFS]
+    }
   ],
   bootstrap: [AppComponent]
 })
